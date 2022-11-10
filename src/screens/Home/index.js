@@ -1,24 +1,11 @@
 import React, {useEffect} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Pressable,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  Keyboard,
-  Button,
-} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import IconMet from 'react-native-vector-icons/Ionicons'
-import {SCREEN_NAMES} from '../../App';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import ItemScreen from './ItemScreen';
-import SavedItem from './SavedItem';
-import Notification from './Notification';
-import Personal from './Personal'
+import {SCREEN_NAMES} from '../../../App';
+import ItemScreen from '../ItemScreen';
+import SavedItem from '../SavedItem';
+import Notification from '../Notification';
+import Personal from '../Personal'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 

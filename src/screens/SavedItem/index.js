@@ -1,4 +1,4 @@
-import React  from 'react';
+import React, {useEffect}  from 'react';
 import {
   StyleSheet,
   View,
@@ -10,8 +10,8 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {TextInput} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { removeItem,incrementQuantity,decrementQuantity} from '../redux/CartSlice';
-
+import { removeItem } from '../../redux/FavSlice';
+import AsyncStorage from '@react-native-community/async-storage';
 function Item({item}) {
   const dispatch = useDispatch();
 
@@ -22,22 +22,15 @@ function Item({item}) {
         <View style={styles.productinfo}>
           <Text style={styles.productname}>{item.name}</Text>
           <Text style={styles.productprice}>$ {item.price.toFixed(2)}</Text>
-          <View style={styles.checknumber}>
-          <TouchableOpacity onPress={()=> dispatch(incrementQuantity(item.id))}>
-          <Icon name="plus-circle" size={20}></Icon>
-          </TouchableOpacity>
-            
-            <Text style={styles.number}> {item.quantity}</Text>
-            <TouchableOpacity onPress={()=> dispatch(decrementQuantity(item.id))}>
-            <Icon name="minus-circle" size={20}></Icon>
-            </TouchableOpacity>
-          
-          </View>
           <TouchableOpacity style={styles.deleteitem} onPress = {()=>
           dispatch(removeItem(item.id))}>
             <Icon name="times-circle" size={20}></Icon>
           </TouchableOpacity>
+            <TouchableOpacity style = {styles.shoppingicon}>
+              <Icon name = "shopping-bag" size={20} style={{ textAlign: 'center'}}> </Icon>
+            </TouchableOpacity>
         </View>
+       
       </View>
 
     </View>
@@ -45,17 +38,20 @@ function Item({item}) {
     
   );
 }
-export default function MyCart({navigation}) {
-  const cart = useSelector(state => state.cart);
-  const getTotal = () => {
-    let totalQuantity = 0;
-    let totalPrice = 0;
-    cart.forEach(item => {
-      totalQuantity += item.quantity
-      totalPrice += item.price * item.quantity
-    })
-    return {totalPrice, totalQuantity}
-  }
+export default function SavedItem({navigation}) {
+  const favlist = useSelector(state => state.favlist.favorite);
+  useEffect(() => {
+    const initList = async () => {
+      try {
+        const jsonValue = JSON.stringify(favlist);
+        await AsyncStorage.setItem('listinfo', jsonValue);
+      } catch (e) {
+        console.error('error', e);
+        // error reading value
+      }
+    };
+    initList();
+  }, [favlist]);
   const renderItem = ({item}) => (
     <Item item={item} title={item.name} source={item.img} price={item.price} quantity = {item.quantity} />
   );
@@ -69,36 +65,26 @@ export default function MyCart({navigation}) {
         <Icon name="chevron-left" size={25} style={styles.backicon}></Icon>
       </TouchableOpacity>
       <View style={styles.header}>
-        <Text style={styles.mycart}> My cart</Text>
+        <Text style={styles.mycart}> Favorites </Text>
       </View>
       <View style={styles.list}>
         <FlatList
-          data={cart}
+          data={favlist}
           renderItem={renderItem}
           keyExtractor={item => item.id}
         />
       </View>
+      
+      <View style = {styles.bottom}>
 
-      <View style={styles.boxcode}>
-        <TextInput
-          placeholder="Enter your promotion code"
-          style={styles.inputcode}></TextInput>
-        <TouchableOpacity style={styles.entercode}>
-          <Icon
-            name="chevron-right"
-            style={styles.iconentercode}
-            size={17}></Icon>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.price}>
-        <Text style={styles.total}> Total:</Text>
-        <Text style={styles.money}> $ {getTotal().totalPrice.toFixed(2)}</Text>
-      </View>
       <View style={styles.viewcheckout}>
         <TouchableOpacity style={styles.checkout}>
-          <Text style={styles.textcheckout}> Check out</Text>
+          <Text style={styles.textcheckout}> Add all to my cart</Text>
         </TouchableOpacity>
       </View>
+      </View>
+      
+      
     </View>
   );
 }
@@ -208,7 +194,7 @@ const styles = StyleSheet.create({
   viewcheckout: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 50,
+    marginBottom: 20,
   },
   checkout: {
     backgroundColor: 'black',
@@ -220,7 +206,7 @@ const styles = StyleSheet.create({
   },
   textcheckout: {
     color: 'white',
-    fontSize: 25,
+    fontSize: 20,
   },
   productinfo: {
     justifyContent: 'flex-start',
@@ -228,18 +214,18 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 100,
   },
-  checknumber: {
-    flexDirection: 'row',
-    marginTop: 30,
-    marginLeft: 10,
-    alignItems: 'center',
-  },
-  number: {
-    fontSize: 25,
-    marginHorizontal: 10,
-  },
+
   deleteitem: {
-    marginLeft: 200,
-    bottom: 100,
+    marginLeft: 230,
+    bottom: 40
   },
+  shoppingicon: {
+      height: 40,
+      width : 40,
+      backgroundColor: '#E0E0E0',
+      justifyContent:'center',
+      alignItems: 'center',
+      borderRadius: 10,
+     marginLeft: 210
+  }
 });

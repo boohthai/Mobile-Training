@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {ITEM_POPULAR, ITEM_CHAIR} from '../../data/Data';
+import {ITEM_POPULAR, ITEM_CHAIR} from '../data/Data';
 
 const Item = ({item, onPress}) => (
   <TouchableOpacity
@@ -14,7 +14,7 @@ const Item = ({item, onPress}) => (
     }}>
     <View style={styles.imgbox}>
       <Image source={item.img} style={styles.img}></Image>
-      <TouchableOpacity style={styles.bag}>
+      <TouchableOpacity style={styles.bag} >
         <Icon name="shopping-bag" size={20}></Icon>
       </TouchableOpacity> 
     </View>

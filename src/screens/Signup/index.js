@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import loadImage from '../../assets'
 
 // import { MaterialCommunityIcons } from '@expo/vector-icons';
 // import { useTogglePasswordVisibility } from '../components/handleViewPassword';
@@ -22,7 +23,7 @@ export default function Login({navigation}) {
   };
   return (
     <View style={styles.container}>
-      <Image source={require('../assets/pattern.png')} style={styles.img} />
+      <Image source={loadImage.pattern} style={styles.img} />
       <View style={styles.head}>
         <Text style={styles.hello}> WELCOME </Text>
       </View>

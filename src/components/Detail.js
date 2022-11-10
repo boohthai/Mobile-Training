@@ -1,12 +1,9 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {ITEM_POPULAR} from '../../data/Data';
-import {Provider} from 'react-redux';
-import {store} from '../../../src/redux/Store';
 import {useDispatch, useSelector} from 'react-redux';
-import {addToCart} from '../../../src/redux/CartSlice';
-import { Item } from 'react-native-paper/lib/typescript/components/List/List';
+import {addToCart} from '../redux/CartSlice';
+import { addToList } from '../redux/FavSlice';
 // TODO: screens
 export default function Detail({route, navigation}) {
   const goBack = () => {
@@ -14,10 +11,9 @@ export default function Detail({route, navigation}) {
   };
   let {id, image, name, price, rate, description, quantity} = route.params;
   // Local State => Global State
-  const cart = useSelector((state) => state.cart)
-
+  const cart = useSelector((state) => state.cart.cart)
   const [numProduct, setNumProduct] = React.useState(1);
-
+  const [seleted, setSelected] = React.useState(true);
   const numberCartRef = React.useRef(1);
 
   const increase = () => {
@@ -37,7 +33,7 @@ export default function Detail({route, navigation}) {
   return (
     
     <View style={styles.container}>
-      <Provider store={store}>
+    
         <TouchableOpacity
           style={{position: 'absolute', zIndex: 1}}
           onPress={goBack}>
@@ -101,8 +97,13 @@ export default function Detail({route, navigation}) {
 
         <Text style={styles.text}>{description}</Text>
         <View style={styles.bottom}>
-          <TouchableOpacity style={styles.bookmarkicon}>
-            <Icon name={'bookmark'} size={30} color={'gray'}></Icon>
+          <TouchableOpacity style={styles.bookmarkicon} onPress = {()=>{
+            dispatch(
+              addToList({id, name, image, price})
+            );
+            setSelected(!seleted)
+          }}>
+            <Icon name={'bookmark'} size={30} color={seleted? 'gray': 'green'}></Icon>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -124,7 +125,7 @@ export default function Detail({route, navigation}) {
             <Text style={{color: 'white', fontSize: 20}}> Add to cart</Text>
           </TouchableOpacity>
         </View>
-      </Provider>
+
     </View>
   );
 }

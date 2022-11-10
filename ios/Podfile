@@ -41,3 +41,5 @@ target 'MobileTrainingv2' do
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
   end
 end
+
+pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
