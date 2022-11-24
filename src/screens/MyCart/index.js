@@ -53,7 +53,6 @@ function Item({item}) {
 export default function MyCart({navigation}) {
   const cart = useSelector(state => state.cart.cart);
   const dispatch = useDispatch();
-  console.log('Hello', cart);
 
   useEffect(() => {
     const initCart = async () => {
@@ -121,7 +120,7 @@ export default function MyCart({navigation}) {
         <Text style={styles.money}> $ {getTotal().totalPrice.toFixed(2)}</Text>
       </View>
       <View style={styles.viewcheckout}>
-        <TouchableOpacity style={styles.checkout}>
+        <TouchableOpacity style={styles.checkout}  onPress={()=>navigation.navigate('Checkout')}>
           <Text style={styles.textcheckout}> Check out</Text>
         </TouchableOpacity>
       </View>

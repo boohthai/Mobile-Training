@@ -33,6 +33,8 @@ export const SCREEN_NAMES = {
   PERSONAL: 'Personal',
   DETAIL: 'Detail',
   CART: 'MyCart',
+  CHECKOUT: 'Checkout',
+  SUCCESS: 'Success'
 };
 
 export default App;

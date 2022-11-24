@@ -12,6 +12,8 @@ import Home from './Home';
 import Personal from './Personal';
 import Detail from '../components/Detail';
 import MyCart from './MyCart';
+import Checkout from './Checkout';
+import Success from './Success';
 import {addToCart} from '../redux/CartSlice';
 import { addToList } from '../redux/FavSlice';
 
@@ -102,6 +104,8 @@ export default StartScreen = () => {
           <Stack.Screen name={SCREEN_NAMES.DETAIL} component={Detail} />
           <Stack.Screen name={SCREEN_NAMES.CART} component={MyCart} />
           <Stack.Screen name={SCREEN_NAMES.PERSONAL} component={Personal} />
+          <Stack.Screen name={SCREEN_NAMES.CHECKOUT} component={Checkout}/>
+          <Stack.Screen name={SCREEN_NAMES.SUCCESS} component={Success}/>
         </Stack.Navigator>
       </NavigationContainer>
     );
